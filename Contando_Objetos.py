@@ -1,0 +1,20 @@
+from tkinter import image_names
+import cv2
+img = cv2.imread("Imagenes/dado.png",1)
+cv2.imshow("dado",img)
+cv2.waitKey(0)
+img_g = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+cv2.imshow("dado",img_g)
+cv2.waitKey(0)
+bordes = cv2.Canny(img_g,100,500)
+bordes = cv2.dilate(bordes, None, iterations=1)
+bordes = cv2.erode(bordes, None, iterations=1)
+cv2.imshow("Bordes1",bordes)
+cv2.waitKey(0)
+contornos, jerarquia = cv2.findContours(bordes,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+cv2.drawContours(bordes, contornos, -1, (0,0,255), 2)
+texto= "Contornos Encontrados"+ str(len(contornos))
+cv2.putText(img,texto,(10,20),cv2.FONT_HERSHEY_SIMPLEX, 0.5,(255,0,0),1)
+cv2.imshow("Imagen",img)
+cv2.waitKey(0)
+cv2.destroyAllWindows       
