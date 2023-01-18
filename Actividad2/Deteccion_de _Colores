@@ -1,0 +1,17 @@
+import cv2
+import numpy as np
+img = cv2.imread("Imagenes/semaforo.jpg",1)
+img2 = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+redBajo1 = np.array([0,100,20] ,np.uint8)
+redAlto1 = np.array([8,255,255] ,np.uint8)
+redBajo2 = np.array([175,100,20] ,np.uint8)
+redAlto2 = np.array([179,255,255] ,np.uint8)
+maskred1 = cv2.inRange(img2, redBajo1, redAlto1)
+maskred2 = cv2.inRange(img2, redBajo2, redAlto2)
+maskRed = cv2.add(maskred1,maskred2)
+maskRedvis = cv2.bitwise_and(img2, img,mask = maskRed)
+cv2.imshow("Original",img)
+cv2.imshow("maskRed",maskRed)
+cv2.imshow("maskRedvis",maskRedvis)
+cv2.waitKey(0)
+cv2.destroyAllWindows
